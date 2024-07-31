@@ -6,6 +6,7 @@
 
 // this is defined so that the assembler exports generic assembler API macros
 #define GENERIC_ASM_API (1)
+#define GENERIC_ASM_API_WIN (0)
 #include "py/asmxtensa.h"
 
 // Word indices of REG_LOCAL_x in nlr_buf_t
