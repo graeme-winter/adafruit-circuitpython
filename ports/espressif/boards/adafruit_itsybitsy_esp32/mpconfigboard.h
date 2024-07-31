@@ -11,6 +11,8 @@
 #define MICROPY_HW_BOARD_NAME       "Adafruit ItsyBitsy ESP32"
 #define MICROPY_HW_MCU_NAME         "ESP32"
 
+#define MICROPY_PY_UCTYPES (1)
+
 #define MICROPY_HW_NEOPIXEL (&pin_GPIO0)
 #define CIRCUITPY_STATUS_LED_POWER (&pin_GPIO2)
 
