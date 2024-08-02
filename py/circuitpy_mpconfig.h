@@ -66,7 +66,7 @@ extern void common_hal_mcu_enable_interrupts(void);
 #define MICROPY_EMIT_THUMB               (CIRCUITPY_ENABLE_MPY_NATIVE && (defined(__thumb__) || defined(__thumb2__)))
 #define MICROPY_EMIT_X64                 (CIRCUITPY_ENABLE_MPY_NATIVE && defined(__x86_64__))
 #define MICROPY_EMIT_XTENSAWIN           (CIRCUITPY_ENABLE_MPY_NATIVE && defined(__xtensa__))
-#define MICROPY_EMIT_INLINE_XTENSAWIN    (CIRCUITPY_ENABLE_MPY_NATIVE && defined(__xtensa__))
+#define MICROPY_EMIT_INLINE_XTENSAWIN    (0)
 #define MICROPY_ENABLE_DOC_STRING        (0)
 #define MICROPY_ENABLE_FINALISER         (1)
 #define MICROPY_ENABLE_GC                (1)
