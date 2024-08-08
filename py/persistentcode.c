@@ -230,6 +230,8 @@ STATIC mp_raw_code_t *load_raw_code(mp_reader_t *reader, mp_module_context_t *co
     bool has_children = !!(kind_len & 4);
     size_t fun_data_len = kind_len >> 3;
 
+    mp_printf(&mp_plat_print, "In load_raw_code: kind = %d vs. \n", kind, MP_CODE_NATIVE_PY);
+
     #if !MICROPY_EMIT_MACHINE_CODE
     if (kind != MP_CODE_BYTECODE) {
         mp_raise_ValueError(MP_ERROR_TEXT("incompatible .mpy file"));
@@ -254,7 +256,11 @@ STATIC mp_raw_code_t *load_raw_code(mp_reader_t *reader, mp_module_context_t *co
     } else {
         // Allocate memory for native data and load it
         size_t fun_alloc;
+
+        mp_printf(&mp_plat_print, "In load_raw_code: allocating %d bytes for function\n", fun_data_len);
         MP_PLAT_ALLOC_EXEC(fun_data_len, (void **)&fun_data, &fun_alloc);
+
+        mp_printf(&mp_plat_print, "In load_raw_code: reading %d bytes for function\n", fun_data_len);
         read_bytes(reader, fun_data, fun_data_len);
 
         if (kind == MP_CODE_NATIVE_PY) {
@@ -426,6 +432,10 @@ void mp_raw_code_load(mp_reader_t *reader, mp_compiled_module_t *cm) {
 
     size_t n_qstr = read_uint(reader);
     size_t n_obj = read_uint(reader);
+
+    mp_printf(&mp_plat_print, "in mp_raw_code_load: n_qstr = %d and n_obj = %d\n",
+              (int) n_qstr, (int) n_obj);
+
     mp_module_context_alloc_tables(cm->context, n_qstr, n_obj);
 
     // Load qstrs.
@@ -440,6 +450,8 @@ void mp_raw_code_load(mp_reader_t *reader, mp_compiled_module_t *cm) {
 
     // Load top-level module.
     cm->rc = load_raw_code(reader, cm->context);
+
+    mp_printf(&mp_plat_print, "in mp_raw_code_load: after load_raw_code()\n");
 
     #if MICROPY_PERSISTENT_CODE_SAVE
     cm->has_native = MPY_FEATURE_DECODE_ARCH(header[2]) != MP_NATIVE_ARCH_NONE;
