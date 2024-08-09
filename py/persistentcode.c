@@ -230,7 +230,7 @@ STATIC mp_raw_code_t *load_raw_code(mp_reader_t *reader, mp_module_context_t *co
     bool has_children = !!(kind_len & 4);
     size_t fun_data_len = kind_len >> 3;
 
-    mp_printf(&mp_plat_print, "In load_raw_code: kind = %d vs. \n", kind, MP_CODE_NATIVE_PY);
+    mp_printf(&mp_plat_print, "In load_raw_code: kind = %d vs. %d\n", kind, MP_CODE_NATIVE_PY);
 
     #if !MICROPY_EMIT_MACHINE_CODE
     if (kind != MP_CODE_BYTECODE) {
@@ -265,6 +265,7 @@ STATIC mp_raw_code_t *load_raw_code(mp_reader_t *reader, mp_module_context_t *co
 
         if (kind == MP_CODE_NATIVE_PY) {
             // Read prelude offset within fun_data, and extract scope flags.
+            mp_printf(&mp_plat_print, "In load_raw_code: kind == MP_CODE_NATIVE_PY\n");
             prelude_offset = read_uint(reader);
             const byte *ip = fun_data + prelude_offset;
             MP_BC_PRELUDE_SIG_DECODE(ip);
@@ -461,6 +462,7 @@ void mp_raw_code_load(mp_reader_t *reader, mp_compiled_module_t *cm) {
 
     // Deregister exception handler and close the reader.
     nlr_pop_jump_callback(true);
+    mp_printf(&mp_plat_print, "in mp_raw_code_load: after nlr_pop_jump_callback()\n");
 }
 
 void mp_raw_code_load_mem(const byte *buf, size_t len, mp_compiled_module_t *context) {

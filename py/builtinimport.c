@@ -240,8 +240,12 @@ STATIC void do_load(mp_module_context_t *module_obj, vstr_t *file) {
     if (file_str[file->len - 3] == 'm') {
         mp_compiled_module_t cm;
         cm.context = module_obj;
+        mp_printf(&mp_plat_print, "in builtinimport: before mp_raw_code_load_file()\n");
         mp_raw_code_load_file(file_str, &cm);
+        mp_printf(&mp_plat_print, "in builtinimport: after mp_raw_code_load_file()\n");
+        mp_printf(&mp_plat_print, "in builtinimport: before do_execute_raw_code()\n");
         do_execute_raw_code(cm.context, cm.rc, file_str);
+        mp_printf(&mp_plat_print, "in builtinimport: after do_execute_raw_code()\n");
         return;
     }
     #endif
